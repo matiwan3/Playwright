@@ -61,4 +61,99 @@ Follow these steps to set up Playwright in a TypeScript project:
     npx ts-node example.spec.ts
     ```
 
-You now have a basic setup for running Playwright tests using TypeScript.
+    ## Good Practices for File Organization
+
+    ### Page Object Model (POM)
+
+    Using the Page Object Model (POM) pattern helps in maintaining clean and reusable code. Here are some best practices for organizing your files using POM:
+
+    1. **Create a `pages` directory:**
+      - Store all your page objects in this directory.
+      - Each page object should be a separate file.
+
+    2. **Example structure:**
+      ```
+      /pages
+        ├── loginPage.ts
+        ├── dashboardPage.ts
+        └── profilePage.ts
+      ```
+
+    3. **Page Object Example:**
+      ```typescript
+      // pages/loginPage.ts
+      import { Page } from 'playwright';
+
+      export class LoginPage {
+        constructor(private page: Page) {}
+
+        async navigate() {
+        await this.page.goto('https://example.com/login');
+        }
+
+        async login(username: string, password: string) {
+        await this.page.fill('#username', username);
+        await this.page.fill('#password', password);
+        await this.page.click('#loginButton');
+        }
+      }
+      ```
+
+    ### Tests Organization
+
+    Organizing your tests properly ensures better maintainability and readability. Here are some tips:
+
+    1. **Create a `tests` directory:**
+      - Store all your test files in this directory.
+      - Group related tests into subdirectories.
+
+    2. **Example structure:**
+      ```
+      /tests
+        ├── login.spec.ts
+        ├── dashboard.spec.ts
+        └── profile.spec.ts
+      ```
+
+    3. **Test File Example:**
+      ```typescript
+      // tests/login.spec.ts
+      import { chromium } from 'playwright';
+      import { LoginPage } from '../pages/loginPage';
+
+      (async () => {
+        const browser = await chromium.launch();
+        const page = await browser.newPage();
+        const loginPage = new LoginPage(page);
+
+        await loginPage.navigate();
+        await loginPage.login('user', 'password');
+
+        // Add assertions here
+
+        await browser.close();
+      })();
+      ```
+
+    ### Structure Creation
+
+    1. **Directory Structure:**
+      - Keep a clear and consistent directory structure.
+      - Separate configuration files, page objects, and tests.
+
+    2. **Example structure:**
+      ```
+      /playwright-project
+        ├── pages
+        │   ├── loginPage.ts
+        │   ├── dashboardPage.ts
+        │   └── profilePage.ts
+        ├── tests
+        │   ├── login.spec.ts
+        │   ├── dashboard.spec.ts
+        │   └── profile.spec.ts
+        ├── tsconfig.json
+        └── package.json
+      ```
+
+    By following these practices, you can ensure that your Playwright project remains organized, maintainable, and scalable.
