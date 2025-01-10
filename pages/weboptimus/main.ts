@@ -1,7 +1,7 @@
 import { Page } from 'playwright';
 
 export class MainPage {
-    public page: Page;
+    private page: Page;
     public heading: any;
     public uniqueValues: any;
 
