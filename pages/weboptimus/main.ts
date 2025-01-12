@@ -11,3 +11,5 @@ export class MainPage {
         this.uniqueValues = page.getByRole('heading', { name: 'Co nas wyróżnia?' });
     }
 }
+
+// free commit
